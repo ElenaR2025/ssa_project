@@ -38,13 +38,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-    
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.get_or_create(user=instance)  # Safely create the profile without duplicating
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'profile'):  # Ensure profile exists before trying to save
-        instance.profile.save()
