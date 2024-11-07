@@ -57,7 +57,7 @@ def invite_users(request, group_id):
     return render(request, 'chipin/invite_users.html', {
         'group': group,
         'users_not_in_group': users_not_in_group
-    })
+    })  
 
 @login_required
 def accept_invite(request, group_id):
