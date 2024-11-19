@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -28,6 +28,8 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     nickname = models.CharField(max_length=30, unique=True, null=False, blank=False)
+    max_spend = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)  # Max spend for each event
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)  # User's current balance
 
     def clean(self):
         validate_unique_nickname(self.nickname, instance=self)
