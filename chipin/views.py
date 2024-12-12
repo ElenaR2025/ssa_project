@@ -12,6 +12,8 @@ from .models import Group, Comment, Event
 from .forms import CommentForm
 from .models import Event
 
+
+
 @login_required
 def request_to_join_group(request, group_id):
     group = get_object_or_404(Group, id=group_id)
@@ -75,16 +77,17 @@ def vote_on_join_request(request, group_id, request_id, vote):
 
 @login_required
 def create_group(request):
-    if request.method =='POST':
+    if request.method == 'POST':
         form = GroupCreationForm(request.POST, user=request.user)
         if form.is_valid():
             group = form.save()
-            messages.success(request, f'Group "{group.name}"created successfully')
-            return redirect ('chipin:group_detail', group_id=group.id)
-        else:
-            form = GroupCreationForm(user=request.user)
-        return render(request, 'chipin/create_group.html', {'form : form'})
+            messages.success(request, f'Group "{group.name}" created successfully!')
+            return redirect('chipin:group_detail', group_id=group.id)
+    else:
+        form = GroupCreationForm(user=request.user)  # Initialize the form for GET requests
 
+    # Render the template with the form
+    return render(request, 'chipin/create_group.html', {'form': form})
 @login_required
 def home(request):
     user = request.user
